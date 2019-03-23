@@ -6,12 +6,26 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import com.ebartmedia.workssearch.models.Persons
+import com.ebartmedia.workssearch.services.PersonsService
+import com.ebartmedia.workssearch.services.ServiceBuilder
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.app_bar_create_account.*
+import kotlinx.android.synthetic.main.content_create_account.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CreateAccount : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +44,81 @@ class CreateAccount : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+//
+//        button = findViewById(R.id.button) as Button
+//
+//
+//        button.setOnClickListener({
+//
+//
+//            Log.d ("lkjasdf", "lkjasdf")
+//
+//        })
+
+
+        var button = findViewById<Button>(R.id.button)
+
+
+        button.setOnClickListener({
+
+            val persons = Persons()
+
+            Log.d("lkjsdf", "lkjsdf")
+
+
+            var userName:String = createAccoutUserName.text.toString()
+            var eMail:String = createAccountEmail.text.toString()
+            var paSsword:String = createAccountPassword.text.toString()
+
+
+
+            Log.d("usename", "username$userName")
+            Log.d("email", "email$eMail")
+            Log.d("password", "password$paSsword")
+
+
+
+            persons.username = userName
+            persons.email = eMail
+            persons.password = paSsword
+
+
+
+            val personsService = ServiceBuilder.buildService(PersonsService::class.java)
+            val requestCall = personsService.addPersons(persons)
+
+
+
+            requestCall.enqueue(object : Callback<Persons> {
+
+                override fun onResponse(call: Call<Persons>, response: Response<Persons>) {
+
+                    if(response.isSuccessful) {
+
+                        Toast.makeText(this@CreateAccount, "Successfully Added", Toast.LENGTH_SHORT).show()
+                    } else {
+
+                        Toast.makeText(this@CreateAccount, "Failed to add the person", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Persons>, t: Throwable) {
+
+                    Toast.makeText(this@CreateAccount, "Failed to add item", Toast.LENGTH_SHORT).show()
+                }
+                
+            })
+
+
+
+
+        })
+
     }
+
+
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
