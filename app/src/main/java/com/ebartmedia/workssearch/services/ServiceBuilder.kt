@@ -45,10 +45,22 @@ object ServiceBuilder {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttp.build())
 
+    private val builderToLogin = Retrofit.Builder().baseUrl(URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttp.build())
+
+
+
     // Create Retrofit Instance
     private val retrofit = builder.build()
 
+    private val retrofitt = builderToLogin.build()
+
     fun <T> buildService(serviceType: Class<T>): T {
         return retrofit.create(serviceType)
+    }
+
+    fun <T> buildServiceToLogin(serviceType: Class<T>): T {
+        return retrofitt.create(serviceType)
     }
 }

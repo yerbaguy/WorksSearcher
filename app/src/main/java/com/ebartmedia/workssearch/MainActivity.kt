@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val hView = nav_view.getHeaderView(0);
         val textview = hView.findViewById(R.id.textView3) as TextView
 
+        val textView2 = hView.findViewById<TextView>(R.id.textView2) as TextView
+
 
 
 
@@ -139,6 +141,60 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         })
 
+
+
+    }
+
+
+
+    fun toLogin(view: View) {
+
+
+        textView2.setOnClickListener({
+
+
+            //                        val createAccount = CreateAccountFragment()
+//
+//            val manager = supportFragmentManager
+//
+//            val transaction = manager.beginTransaction()
+//
+//            transaction.replace(R.id.relativeLayout, createAccount)
+//
+//            transaction.addToBackStack(null)
+//
+//            transaction.commit()
+
+
+//            FragmentTransaction fragmentTransaction = getFragmentManager().begin
+
+
+            val login = Intent(this@MainActivity, Login::class.java)
+
+            startActivity(login)
+
+
+
+
+        })
+
+
+
+
+
+    }
+
+
+    fun anotherLogin(view: View) {
+
+
+        anotherLogin.setOnClickListener({
+
+            val login = Intent(this@MainActivity, AnotherLogin::class.java)
+
+            startActivity(login)
+
+        })
 
 
     }

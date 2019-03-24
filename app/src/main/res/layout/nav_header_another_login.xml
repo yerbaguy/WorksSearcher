@@ -22,26 +22,6 @@
             android:id="@+id/imageView"/>
 
     <TextView
-            android:text="Zaloz Konto"
-            android:layout_width="151dp"
-            android:layout_height="wrap_content" android:id="@+id/textView3"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="createAccount"/>
-
-    <TextView
-            android:text="Zaloguj sie"
-            android:layout_width="151dp"
-            android:layout_height="wrap_content" android:id="@+id/textView2"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="toLogin"/>
-
-
-
-
-
-    <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"

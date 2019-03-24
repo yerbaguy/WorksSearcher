@@ -13,23 +13,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.ebartmedia.workssearch.models.Persons
+import com.ebartmedia.workssearch.models.PersonsLogin
+import com.ebartmedia.workssearch.services.PersonsLoginService
 import com.ebartmedia.workssearch.services.PersonsService
 import com.ebartmedia.workssearch.services.ServiceBuilder
-import kotlinx.android.synthetic.main.activity_create_account.*
-import kotlinx.android.synthetic.main.app_bar_create_account.*
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.app_bar_login.*
 import kotlinx.android.synthetic.main.content_create_account.*
+import kotlinx.android.synthetic.main.content_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CreateAccount : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-
-
+class Login : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_account)
+        setContentView(R.layout.activity_login)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
@@ -45,86 +45,71 @@ class CreateAccount : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         nav_view.setNavigationItemSelectedListener(this)
 
-//
-//        button = findViewById(R.id.button) as Button
-//
-//
-//        button.setOnClickListener({
-//
-//
-//            Log.d ("lkjasdf", "lkjasdf")
-//
-//        })
-
-
         var button = findViewById<Button>(R.id.button)
-
 
         button.setOnClickListener({
 
-            val persons = Persons()
 
-            Log.d("lkjsdf", "lkjsdf")
-
-
-            var userName:String = createAccoutUserName.text.toString()
-            var eMail:String = createAccountEmail.text.toString()
-            var paSsword:String = createAccountPassword.text.toString()
+            val personsLogin = PersonsLogin()
 
 
 
-            Log.d("usename", "username$userName")
-            Log.d("email", "email$eMail")
-            Log.d("password", "password$paSsword")
+            var userName:String = loginUsername.text.toString()
+            var userPassword:String = loginPassword.text.toString()
 
 
 
-            persons.username = userName
-            persons.email = eMail
-            persons.password = paSsword
+            Log.d("userName", "userName$userName")
+            Log.d("userPassword", "userPassword$userPassword")
 
 
 
-            val personsService = ServiceBuilder.buildService(PersonsService::class.java)
-            val requestCall = personsService.addPersons(persons)
+            personsLogin.username = userName
+            personsLogin.password = userPassword
 
 
 
-            requestCall.enqueue(object : Callback<Persons> {
 
-                override fun onResponse(call: Call<Persons>, response: Response<Persons>) {
+          //  val personsService = ServiceBuilder.buildService(PersonsService::class.java)
+            val personsLoginService = ServiceBuilder.buildServiceToLogin(PersonsLoginService::class.java)
+          //  val requestCall = personsService.addPersons(persons)
+            val requestCall = personsLoginService.toLogin(personsLogin)
+
+
+
+
+            requestCall.enqueue(object : Callback<PersonsLogin> {
+
+                override fun onResponse(call: Call<PersonsLogin>, response: Response<PersonsLogin>) {
 
                     if(response.isSuccessful) {
 
-                        Toast.makeText(this@CreateAccount, "Successfully Added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Login, "Successfully Added", Toast.LENGTH_SHORT).show()
                     } else {
 
-                        Toast.makeText(this@CreateAccount, "Failed to add the person", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Login, "Failed to add the person", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<Persons>, t: Throwable) {
+                override fun onFailure(call: Call<PersonsLogin>, t: Throwable) {
 
-                    Toast.makeText(this@CreateAccount, "Failed to add item", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login, "Failed to add item", Toast.LENGTH_SHORT).show()
                 }
-                
+
             })
+
+
+
 
 
 
 
         })
 
-    }
 
-
-    fun toLogin(view: View) {
-
-        Log.d("lkjasdf", "lkjasdf")
 
 
     }
-
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -136,7 +121,7 @@ class CreateAccount : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.create_account, menu)
+        menuInflater.inflate(R.menu.login, menu)
         return true
     }
 

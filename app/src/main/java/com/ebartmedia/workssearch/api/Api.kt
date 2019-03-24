@@ -16,4 +16,11 @@ interface Api {
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<AddPersonsResponse>
+
+    @FormUrlEncoded
+    @POST("login")
+    fun  login(
+        @Field("username") username:String,
+        @Field("password") password: String
+    ): Call<AddPersonsResponse>
 }
